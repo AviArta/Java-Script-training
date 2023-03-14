@@ -55,7 +55,7 @@ function addToBasket (userGood, amount) {
         let good = {name: userGood, amount: amount};
         basket.push(good);
         console.log(`Товар ${userGood} добавлен в корзину в количестве ${amount} шт.`);
-        return console.log('Корзина:', basket)
+        return 'Корзина:', basket
     } else if (checkInCatalog(userGood) & checkInBasket(userGood)) {
         let newAmount = changeTotalAmount(userGood, amount);
         basket.forEach(function(entry) {
@@ -63,11 +63,11 @@ function addToBasket (userGood, amount) {
                 let newAmount = amount + entry.amount;
                 entry.amount = newAmount;
                 console.log(`Количество ${amount} шт. товара ${userGood} добавлено в корзину.`);
-                return console.log('Корзина:', basket)
+                return 'Корзина:', basket
             }
         });
     } else {
-        console.log(`Товара ${userGood} нет в каталоге товаров.`)
+        return `Товара ${userGood} нет в каталоге товаров.`
     }
 }
 
@@ -80,7 +80,7 @@ function removeGoodFromBasket (userGood) {
             indexGood = counter;
             basket.splice(indexGood, 1);
             console.log(`Товар ${userGood} удалён из корзины.`);
-            return console.log(basket)
+            return basket
         }
     }); 
 }
@@ -99,13 +99,13 @@ function totalInfo () {
     totalBasket = {totalAmount: totalAmount, totalSumm: totalSumm};
     console.log(`Общее количество товаров в корзине: ${totalAmount}
      общей стоимостью ${totalSumm} руб.`);
-    return console.log(totalBasket)
+    return totalBasket
 }
 
 function cleanBasket () {
     basket.length = 0;
     console.log(basket);
-    return console.log('Корзина очищена.')
+    return 'Корзина очищена.'
 }
 
 // блок создания элементов
@@ -127,5 +127,5 @@ addToBasket('dress', 6);
 addToBasket('coat', 1); //несуществующий товар
 
 removeGoodFromBasket('jeans');
-totalInfo();
-cleanBasket();
+console.log(totalInfo());
+console.log(cleanBasket());

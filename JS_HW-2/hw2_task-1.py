@@ -2,7 +2,7 @@ from datetime import datetime
 
 def siple_numbers(a):
   res_list = [1,]
-  num = 1000
+  num = 100000
   
   for i in range(1, num + 1):
     counter = 0
@@ -12,9 +12,9 @@ def siple_numbers(a):
     if counter == 2:
       res_list.append(i)
   
-  print(res_list[:a])
+  return res_list[:a]
 
 start = datetime.now()
-siple_numbers(100)
+print(siple_numbers(100))
 end = datetime.now()
 print(end - start)
