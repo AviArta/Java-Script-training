@@ -108,7 +108,7 @@ class Basket {
                 }
             });
         } else {    
-            const basketgood_ = new BasketGood(good, amount);
+            const basketgood_ = new BasketGood(good.id, good.name, good.description, good.sizes, good.price, good.available, amount);
             basket.addToBasket(basketgood_);
         }
     }
