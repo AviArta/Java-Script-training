@@ -1,31 +1,23 @@
-const timerHh = document.getElementById('hours')
-const timerMm = document.getElementById('minits')
-const timerSs = document.getElementById('seconds')
 
-function timer1 () {
-  setInterval(() => {
-    const timeH = timerHh.textContent;
-    if (timeH > 0) {
-    timerHh.textContent = '0' + Number(timerHh.textContent) - 1;
-    } else {
-      window.clearInterval(timeOut);
-    }
-  }, 5000);} // 3600000
+let timerMm = document.getElementById('minits')
+let timerSs = document.getElementById('seconds')
 
-function timer2 () {
+
+function timerMinits () {
   setInterval(() => {
-    const timeM = timerMm.textContent;
+    let timeM = timerMm.textContent;
     if (timeM > 0) {
       timerMm.textContent = '0' + (Number(timerMm.textContent) - 1);
+      timerSs.textContent = 60; 
     } else {
       window.clearInterval(timeOut);
     }
-  }, 2000); // 60000
+  }, 60000);
 }
 
-function timer3 () {
+function timerSeconds () {
   setInterval(() => {
-    const timeS = timerSs.textContent;
+    let timeS = timerSs.textContent;
     if (timeS > 0) {
       if (timeS < 10) {
         timerSs.textContent = '0' + (Number(timerSs.textContent) - 1);
@@ -36,15 +28,18 @@ function timer3 () {
       document.location.assign('https://netology.ru');
       window.clearInterval(timeOut);
     }
-  }, 500);
+  }, 1000);
 } 
 
-function total() {
-  return timer1(), timer2(), timer3()
+function total_() {
+  return timerMinits(), timerSeconds()
 }
 
-total();
+total_();
 
+
+
+// Изначальный вариант только с секундами:
 
 //setInterval(() => {
   //const timeH = timerHh.textContent;
