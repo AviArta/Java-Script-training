@@ -1,3 +1,5 @@
+// Базовая версия задания.
+
 // Найти объект клика:
 document.onclick = function (event) {
     let obj = event.target;
