@@ -1,118 +1,106 @@
-function onClickPrev() {
-    console.log('НАЗАД');
-    console.log('imgArr.length', imgArr.length);
-    //console.log('counter', counter);
-    if (counter > 0) {
-        console.log('Я тут.')
-        let activeImg = counter - 1;
-        console.log('counter =', counter, 'activeImg =', activeImg);
-        imgArr[counter].className = 'slider__item';
-        //console.log('counter =', counter, 'activeImg =', activeImg);
-        imgArr[activeImg].className = 'slider__item slider__item_active';
-        sliderArr[counter].className = 'slider__dot';
-        sliderArr[activeImg].className = 'slider__dot slider__dot_active';
-        counter--;
-    } else {
-        console.log('А теперь тут!!!!');
-        counter = imgArr.length;
-        activeImg = counter - 1;
-        imgArr[0].className = 'slider__item';
-        console.log('counter =', counter, 'activeImg =', activeImg);
-        imgArr[activeImg].className = 'slider__item slider__item_active';
-        sliderArr[0].className = 'slider__dot';
-        sliderArr[activeImg].className = 'slider__dot slider__dot_active';
-        counter--;
-    }
-}
-
-function onClickNext() {
-    console.log('ВПЕРЁД');
-    //console.log('imgArr.length', imgArr.length);
-    if (counter < imgArr.length - 1) {
-        let activeImg = counter + 1;
-        imgArr[counter].className = 'slider__item';
-        //console.log('counter =', counter, 'activeImg =', activeImg);
-        imgArr[activeImg].className = 'slider__item slider__item_active';
-        sliderArr[counter].className = 'slider__dot';
-        sliderArr[activeImg].className = 'slider__dot slider__dot_active';
-        counter++;
-    } else {
-        //console.log('counter=', counter);
-        activeImg = 0;
-        imgArr[counter].className = 'slider__item';
-        //console.log('counter =', counter, 'activeImg =', activeImg);
-        imgArr[activeImg].className = 'slider__item slider__item_active';
-        sliderArr[counter].className = 'slider__dot';
-        sliderArr[activeImg].className = 'slider__dot slider__dot_active';
-        counter = 0;
-    }    
-}
-
-let btnPrev = document.getElementsByClassName('slider__arrow slider__arrow_prev');
-let btnNext = document.getElementsByClassName('slider__arrow slider__arrow_next');
-
-let btnPrevArr = Array.from(btnPrev);
-btnPrevArr.forEach(element1 => {
-    element1.addEventListener('click', onClickPrev);
-    });
-
-let btnNextArr = Array.from(btnNext);
-btnNextArr.forEach(element2 => {
-    console.log('Вперёд__')
-    element2.addEventListener('click', onClickNext);
-    });
-
 let imgItems = document.querySelectorAll('.slider__item');
 let imgArr = Array.from(imgItems);
-
-let counter = 0;
 
 let sliders = document.querySelectorAll('.slider__dot');
 let sliderArr = Array.from(sliders);
 
-// !!! КОД РАБОТАЕТ ТОЛЬКО ОТДЕЛЬНО на стрелки или точки !!!
 
-/*document.onclick = function (event) {
+function next(number) { // переключает все элемены до [0]
+    console.log('Длина =', imgArr.length, 'number =', number);
+    if (number < imgArr.length - 1) {
+        console.log('number меньше (5 - 1) =', number);
+        imgArr[number + 1].className = 'slider__item slider__item_active';
+        sliderArr[number + 1].className = 'slider__dot slider__dot_active';
+
+        //Поставить остальные элементы в первоначальное состояние:
+        imgArr.forEach(e => {
+            if (imgArr.indexOf(e) != number + 1) {
+                imgArr[imgArr.indexOf(e)].className = 'slider__item';
+                sliderArr[imgArr.indexOf(e)].className = 'slider__dot';
+        }});
+        number++;
+
+    } else {
+        console.log('number равен длине =', number);
+        number = 0;
+        imgArr[imgArr.length - 1].className = 'slider__item';
+        sliderArr[imgArr.length - 1].className = 'slider__dot';
+        imgArr[number].className = 'slider__item slider__item_active';
+        sliderArr[number].className = 'slider__dot slider__dot_active';
+        //number++;
+}}
+
+function prev(number) {
+    if (number >= 1) {
+        console.log('number =', number); 
+        imgArr[number - 1].className = 'slider__item slider__item_active';
+        sliderArr[number - 1].className = 'slider__dot slider__dot_active';
+        number--;
+
+        //Поставить остальные элементы в первоначальное состояние:
+        imgArr.forEach(e => {
+            if (imgArr.indexOf(e) != number) {
+                imgArr[imgArr.indexOf(e)].className = 'slider__item';
+                sliderArr[imgArr.indexOf(e)].className = 'slider__dot';
+        }});
+
+    } else {
+        console.log('А теперь тут!!!!, number =', number);
+        number = imgArr.length - 1;
+        imgArr[0].className = 'slider__item';
+        imgArr[number].className = 'slider__item slider__item_active';
+        sliderArr[0].className = 'slider__dot';
+        sliderArr[number].className = 'slider__dot slider__dot_active';
+    }
+    
+} 
+
+function pointer(number) {
+    imgArr[number].className = 'slider__item slider__item_active';
+    sliderArr[number].className = 'slider__dot slider__dot_active';
+
+    //Поставить остальные элементы в первоначальное состояние:
+    imgArr.forEach(e => {
+        if (imgArr.indexOf(e) != number) {
+            //console.log('imgArr[imgArr.indexOf(element)] =', imgArr.indexOf(element));
+            imgArr[imgArr.indexOf(e)].className = 'slider__item';
+            sliderArr[imgArr.indexOf(e)].className = 'slider__dot';
+    }});
+}
+
+document.onclick = function (event) {
+    let counter = 0;
     let obj = event.target;
     console.log('obj.className=', obj.className);
 
-    // если нажали на точки:
-    if (obj.className = 'slider__dot') {
-        obj.className = 'slider__dot slider__dot_active';
-
+    if (obj.className == 'slider__arrow slider__arrow_next') {
+        console.log('ВПЕРЁД');
         // Определить индекс элемента, на который кликнули, в созданном массиве:
-        let ind = sliderArr.indexOf(obj);
+        imgArr.forEach(img => {
+            if (img.className.includes( 'slider__item slider__item_active')) {
+                next(counter);
+            }
+            counter++;
+        });
         
-        if (ind >= 0) {
-            console.log('Нажали слайдер', ind + 1);
-            imgArr[ind].className = 'slider__item slider__item_active';
+    } else if (obj.className == 'slider__arrow slider__arrow_prev') {
+        console.log('НАЗАД');
+        // Определить индекс элемента, на который кликнули, в созданном массиве:
+        imgArr.forEach(img => {
+            if (img.className.includes( 'slider__item slider__item_active')) {
+                prev(counter);
+            }
+            counter++;
+        });
+        
+
+    } else if (obj.className = 'slider__dot') {
+        console.log('ТОЧКИ');
+        obj.className = 'slider__dot slider__dot_active';
+        // Определить индекс элемента, на который кликнули, в созданном массиве:
+        counter = sliderArr.indexOf(obj);
+        console.log('!!!', counter);
+        pointer(counter);     
+    }  
     
-        //Поставить остальные элементы в первоначальное состояние:
-            imgArr.forEach(element => {
-                if (imgArr.indexOf(element) != ind) {
-                    //console.log('imgArr[imgArr.indexOf(element)] =', imgArr.indexOf(element));
-                    imgArr[imgArr.indexOf(element)].className = 'slider__item';
-                    sliderArr[imgArr.indexOf(element)].className = 'slider__dot';
-                }
-            });
-        } 
-    
-    // !!! ЭТА ЧАСТЬ НЕ РАБОТАЕТ !!!
-    // если нажали стрелки:
-    /*} else if (obj.className == 'slider__arrow') {
-        console.log('Нажали за границей слайдера и ВПЕРЁД/НАЗАД.');
-        console.log('obj.className =', obj.className);
-        if (obj.className == 'slider__arrow slider__arrow_next') {
-            btnNextArr.forEach(element2 => {
-                console.log('Вперёд__')
-                element2.addEventListener('click', onClickNext);
-                });
-        } else if (obj.className == 'slider__arrow slider__arrow_prev') {
-            btnPrevArr.forEach(element1 => {
-                element1.addEventListener('click', onClickPrev);
-                });
-        }
-    } else {
-        console.log('Нажали за границей слайдера и кнопкок ВПЕРЁД/НАЗАД.');
-    }    
-}*/
+}

@@ -1,6 +1,6 @@
 let botton = document.querySelector('.dropdown__value');
 let dropdownList = document.querySelector('.dropdown__list'); 
-let dropdown = document.querySelectorAll('.dropdown__item');
+let dropdown = document.querySelectorAll('.dropdown__link');
 let dropdownArr = Array.from(dropdown);
 
 function onClick1() {
@@ -27,3 +27,5 @@ botton.addEventListener('click', onClick1);
 dropdownArr.forEach(element => {
     element.addEventListener('click', onClick2);
 });
+
+//  e.preventDefault(); - отменяет значение браузера по умолчанию, страница не перегружается

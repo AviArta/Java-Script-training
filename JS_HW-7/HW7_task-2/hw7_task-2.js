@@ -15,8 +15,15 @@ document.onclick = function (event) {
     //console.log(ind);
 
     //первое меню:
-    if (ind <= 8) {
+    if (0 <= ind <= 8) {
         console.log('Нажали на первое меню.');
+        console.log('ind=', ind);
+        // проверка, если меню было ранее открыто, то его закрыть
+        if (obj.parentElement.querySelector('ul').className == 'menu menu_sub menu_active') {
+            console.log('Повторный клик на открытом меню')
+            obj.parentElement.querySelector('ul').className = 'menu menu_sub';
+            return false
+        }
         if (obj.parentElement.querySelector('ul')) {
      
             menuArr.slice([0], [9]).forEach(element => {
@@ -39,6 +46,14 @@ document.onclick = function (event) {
     //второе меню:
     } else {
         console.log('Нажали на второе меню.');
+
+        // проверка, если меню было ранее открыто, то его закрыть
+        if (obj.parentElement.querySelector('ul').className == 'menu menu_sub menu_active') {
+            console.log('Повторный клик на открытом меню')
+            obj.parentElement.querySelector('ul').className = 'menu menu_sub';
+            return false
+        }
+
         if (obj.parentElement.querySelector('ul')) {
      
             menuArr.slice([9], [18]).slice([0], [9]).forEach(element => {
