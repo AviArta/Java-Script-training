@@ -1,97 +1,44 @@
 // Повыщенный уровень сложности (два меню).
 
-// Найти объект клика:
-document.onclick = function (event) {
-    let obj = event.target;
+let submenu = document.querySelectorAll('.menu__item .menu_sub');
+let submenuArr = Array.from(submenu);
+console.log('submenuArr:', submenuArr);
 
-    // Создать массивы из списков:
-    let menuItems = document.querySelectorAll('.menu__link')
-    let menuArr = Array.from(menuItems);
-    //console.log('menuArr:', menuArr);
-    //console.log('menuArr:', menuArr.slice([0], [9]));
-    //console.log('menuArr:', menuArr.slice([9], [18]));
+let menuItems = document.querySelectorAll('.menu__item')
+let menuArr = Array.from(menuItems);
 
-    let ind = menuArr.indexOf(obj);
-    //console.log(ind);
-
-    //первое меню:
-    if (0 <= ind <= 8) {
-        console.log('Нажали на первое меню.');
-        console.log('ind=', ind);
-        // проверка, если меню было ранее открыто, то его закрыть
-        if (obj.parentElement.querySelector('ul').className == 'menu menu_sub menu_active') {
-            console.log('Повторный клик на открытом меню')
-            obj.parentElement.querySelector('ul').className = 'menu menu_sub';
-            return false
-        }
-        if (obj.parentElement.querySelector('ul')) {
-     
-            menuArr.slice([0], [9]).forEach(element => {
-                
-                if (element.parentElement.querySelector('ul')) {
-                    element.parentElement.querySelector('ul').className = 'menu menu_sub';
-                }});
-                obj.parentElement.querySelector('ul').className = 'menu menu_sub menu_active';
-    
-            } else { 
-                // Все подменю возвращаем в неактивное состояние.
-                menuArr.slice([0], [9]).forEach(ele => {
-                    if (ele.parentElement.querySelector('ul')) {
-                        ele.parentElement.querySelector('ul').className = 'menu menu_sub';
-                        return false 
-            }});}
-    
-        return false // убрать потом, чтобы  ссылки в меню без подменю работали.
-
-    //второе меню:
-    } else {
-        console.log('Нажали на второе меню.');
-
-        // проверка, если меню было ранее открыто, то его закрыть
-        if (obj.parentElement.querySelector('ul').className == 'menu menu_sub menu_active') {
-            console.log('Повторный клик на открытом меню')
-            obj.parentElement.querySelector('ul').className = 'menu menu_sub';
-            return false
-        }
-
-        if (obj.parentElement.querySelector('ul')) {
-     
-            menuArr.slice([9], [18]).slice([0], [9]).forEach(element => {
-                
-                if (element.parentElement.querySelector('ul')) {
-                    element.parentElement.querySelector('ul').className = 'menu menu_sub';
-                }});
-                obj.parentElement.querySelector('ul').className = 'menu menu_sub menu_active';
-    
-            } else { 
-                // Все подменю возвращаем в неактивное состояние.
-                menuArr.slice([9], [18]).forEach(ele => {
-                    if (ele.parentElement.querySelector('ul')) {
-                        ele.parentElement.querySelector('ul').className = 'menu menu_sub';
-                        return false 
-            }});}
-
-        return false // убрать потом, чтобы  ссылки в меню без подменю работали.
-    }
+// убрать переход по ссылкам только для меню с подменю
+document.onclick = function() {
+    return false
 }
-    
-    // Базовая версия задания.
-    /*if (obj.parentElement.querySelector('ul')) {
-     
-        menuArr.forEach(element => {
-            
-            if (element.parentElement.querySelector('ul')) {
-                element.parentElement.querySelector('ul').className = 'menu menu_sub';
-            }});
-            obj.parentElement.querySelector('ul').className = 'menu menu_sub menu_active';
 
-        } else { 
-            // Все подменю возвращаем в неактивное состояние.
-            menuArr.forEach(ele => {
-                if (ele.parentElement.querySelector('ul')) {
-                    ele.parentElement.querySelector('ul').className = 'menu menu_sub';
-                    return false 
-        }});}
+submenuArr.forEach(a => {
+    let wn = a.parentElement;
+    let wnParent = wn.closest('.menu__item');
+    console.log('wnParent:', wnParent);
+    wnParent.addEventListener('click', onclick);
+    return false
+});
 
-    return false // убрать потом, чтобы  ссылки в меню без подменю работали.
-}*/
+function onclick(event) {
+    let element = event.target.parentElement;
+    let e = element.querySelector('.menu_sub');
+
+    // проверка, если меню было ранее открыто, то его закрыть
+    if (e.className == 'menu menu_sub menu_active') {
+        console.log('Повторный клик на открытом меню');
+        e.className = 'menu menu_sub';
+        return false
+    }
+    // раскрить меню по клику
+    e.className = 'menu menu_sub menu_active';
+
+    // остальные подменю в неактивное состояние
+    submenuArr.forEach(menu => {
+        if (menu != e) {
+            menu.className = 'menu menu_sub';
+        }    
+        //return false
+    });
+    return false
+}
