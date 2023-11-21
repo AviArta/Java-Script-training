@@ -1,106 +1,79 @@
-let imgItems = document.querySelectorAll('.slider__item');
-let imgArr = Array.from(imgItems);
+const imgItems = document.querySelectorAll('.slider__item');
+const imgArr = Array.from(imgItems);
 
-let sliders = document.querySelectorAll('.slider__dot');
-let sliderArr = Array.from(sliders);
+const sliders = document.querySelectorAll('.slider__dot');
+const sliderArr = Array.from(sliders);
 
 
-function next(number) { // переключает все элемены до [0]
-    console.log('Длина =', imgArr.length, 'number =', number);
-    if (number < imgArr.length - 1) {
-        console.log('number меньше (5 - 1) =', number);
-        imgArr[number + 1].className = 'slider__item slider__item_active';
-        sliderArr[number + 1].className = 'slider__dot slider__dot_active';
-
-        //Поставить остальные элементы в первоначальное состояние:
-        imgArr.forEach(e => {
-            if (imgArr.indexOf(e) != number + 1) {
-                imgArr[imgArr.indexOf(e)].className = 'slider__item';
-                sliderArr[imgArr.indexOf(e)].className = 'slider__dot';
-        }});
-        number++;
-
-    } else {
-        console.log('number равен длине =', number);
-        number = 0;
-        imgArr[imgArr.length - 1].className = 'slider__item';
-        sliderArr[imgArr.length - 1].className = 'slider__dot';
-        imgArr[number].className = 'slider__item slider__item_active';
-        sliderArr[number].className = 'slider__dot slider__dot_active';
-        //number++;
-}}
-
-function prev(number) {
-    if (number >= 1) {
-        console.log('number =', number); 
-        imgArr[number - 1].className = 'slider__item slider__item_active';
-        sliderArr[number - 1].className = 'slider__dot slider__dot_active';
-        number--;
-
-        //Поставить остальные элементы в первоначальное состояние:
-        imgArr.forEach(e => {
-            if (imgArr.indexOf(e) != number) {
-                imgArr[imgArr.indexOf(e)].className = 'slider__item';
-                sliderArr[imgArr.indexOf(e)].className = 'slider__dot';
-        }});
-
-    } else {
-        console.log('А теперь тут!!!!, number =', number);
-        number = imgArr.length - 1;
-        imgArr[0].className = 'slider__item';
-        imgArr[number].className = 'slider__item slider__item_active';
-        sliderArr[0].className = 'slider__dot';
-        sliderArr[number].className = 'slider__dot slider__dot_active';
-    }
-    
+function prev(index_obj) {
+    if (index_obj < 1) {
+        index_obj = imgArr.length - 1;
+        imgArr[index_obj].className = 'slider__item slider__item_active';
+        sliderArr[index_obj].className = 'slider__dot slider__dot_active';
+        update_no_active(index_obj);
+    } else if (index_obj <= imgArr.length - 1) {
+        imgArr[index_obj - 1].className = 'slider__item slider__item_active';
+        sliderArr[index_obj - 1].className = 'slider__dot slider__dot_active';
+        index_obj--;
+        update_no_active(index_obj);
+    }  
 } 
 
-function pointer(number) {
-    imgArr[number].className = 'slider__item slider__item_active';
-    sliderArr[number].className = 'slider__dot slider__dot_active';
 
-    //Поставить остальные элементы в первоначальное состояние:
+function nexter(index_obj) {
+    if (index_obj == imgArr.length - 1) {
+        index_obj = 0;
+        imgArr[index_obj].className = 'slider__item slider__item_active';
+        sliderArr[index_obj].className = 'slider__dot slider__dot_active';
+        update_no_active(index_obj)
+    } else if (index_obj >= 0) { 
+        imgArr[index_obj + 1].className = 'slider__item slider__item_active';
+        sliderArr[index_obj + 1].className = 'slider__dot slider__dot_active';
+        index_obj++;
+        update_no_active(index_obj);
+    }  
+}
+
+
+function pointer(index_obj) {
+    imgArr[index_obj].className = 'slider__item slider__item_active';
+    sliderArr[index_obj].className = 'slider__dot slider__dot_active';
+    update_no_active(index_obj)
+}
+
+
+function update_no_active(index_obj) {
     imgArr.forEach(e => {
-        if (imgArr.indexOf(e) != number) {
-            //console.log('imgArr[imgArr.indexOf(element)] =', imgArr.indexOf(element));
+        if (imgArr.indexOf(e) != index_obj) {
             imgArr[imgArr.indexOf(e)].className = 'slider__item';
             sliderArr[imgArr.indexOf(e)].className = 'slider__dot';
     }});
 }
 
+
 document.onclick = function (event) {
-    let counter = 0;
     let obj = event.target;
-    console.log('obj.className=', obj.className);
+    let indexCounter = 0;
+    let indexSlide = 0; 
 
-    if (obj.className == 'slider__arrow slider__arrow_next') {
-        console.log('ВПЕРЁД');
-        // Определить индекс элемента, на который кликнули, в созданном массиве:
-        imgArr.forEach(img => {
-            if (img.className.includes( 'slider__item slider__item_active')) {
-                next(counter);
-            }
-            counter++;
-        });
-        
-    } else if (obj.className == 'slider__arrow slider__arrow_prev') {
-        console.log('НАЗАД');
-        // Определить индекс элемента, на который кликнули, в созданном массиве:
-        imgArr.forEach(img => {
-            if (img.className.includes( 'slider__item slider__item_active')) {
-                prev(counter);
-            }
-            counter++;
-        });
-        
-
-    } else if (obj.className = 'slider__dot') {
-        console.log('ТОЧКИ');
-        obj.className = 'slider__dot slider__dot_active';
-        // Определить индекс элемента, на который кликнули, в созданном массиве:
-        counter = sliderArr.indexOf(obj);
-        console.log('!!!', counter);
-        pointer(counter);     
-    }  
+    imgArr.forEach(e => {
+        if (imgArr[imgArr.indexOf(e)].className !== 'slider__item slider__item_active') {
+            indexCounter++;
+        } else {
+            indexSlide = indexCounter;
+    }});
     
+    if (obj.className == 'slider__arrow slider__arrow_next') {
+        console.log('Стрелка ВПЕРЁД.');
+        nexter(index_obj=indexSlide);
+
+    } else if (obj.className == 'slider__arrow slider__arrow_prev') {
+        console.log('Cтрелка НАЗАД.');
+        prev(index_obj=indexSlide);
+        
+    } else if (obj.className = 'slider__dot') {
+        console.log('Клик на ТОЧКИ');
+        index_obj = sliderArr.indexOf(obj);
+        pointer(index_obj=index_obj);
+    }
 }
